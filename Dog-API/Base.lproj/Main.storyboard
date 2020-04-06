@@ -34,6 +34,11 @@
                                     <action selector="loadDogImageButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SoQ-xh-y68"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="04O-Uk-muO">
+                                <rect key="frame" x="177" y="418" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -56,6 +61,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="04O-Uk-muO" id="xur-us-H4u"/>
                         <outlet property="dogImageView" destination="wkq-iQ-iqN" id="B8r-7t-uCy"/>
                         <outlet property="logoImageView" destination="vjp-PE-Wdb" id="FNG-ZN-Wse"/>
                     </connections>

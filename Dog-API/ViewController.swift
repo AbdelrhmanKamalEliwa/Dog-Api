@@ -9,7 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var dogImageView: UIImageView!
     override func viewDidLoad() {
@@ -31,43 +32,49 @@ class ViewController: UIViewController {
             if let safeData = data {
                 DispatchQueue.main.async {
                     self.logoImageView.image = UIImage(data: safeData)
+                    
                 }
             }
         }
         task.resume()
     }
     
+    
     func loadDogImage() {
-        let url = URL(string: "https://dog.ceo/api/breeds/image/random")
-        let task = URLSession.shared.dataTask(with: url!) { (data, urlResponse, error) in
-            if error != nil {
-                print("error")
-            }
-            if let safeData = data {
-                do {
-                    if let json = try JSONSerialization.jsonObject(with: safeData, options: []) as? [String:String] {
-                        if let image = json["message"] {
-                            let task = URLSession.shared.dataTask(with: URL(string: image)!) { (data, urlResponse, error) in
-                                if error != nil {
-                                    print("error")
-                                }
-                                if let safeData = data {
-                                    DispatchQueue.main.async {
-                                        self.dogImageView.image = UIImage(data: safeData)
+        activityIndicator.startAnimating()
+        DispatchQueue.global(qos: .background).async {
+            let url = URL(string: "https://dog.ceo/api/breeds/image/random")
+            let task = URLSession.shared.dataTask(with: url!) { (data, urlResponse, error) in
+                if error != nil {
+                    print("error")
+                }
+                if let safeData = data {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: safeData, options: []) as? [String:String] {
+                            if let image = json["message"] {
+                                let task = URLSession.shared.dataTask(with: URL(string: image)!) { (data, urlResponse, error) in
+                                    if error != nil {
+                                        print("error")
+                                    }
+                                    if let safeData = data {
+                                        DispatchQueue.main.async {
+                                            self.dogImageView.image = UIImage(data: safeData)
+                                            self.activityIndicator.stopAnimating()
+                                            self.activityIndicator.hidesWhenStopped = true
+                                        }
                                     }
                                 }
+                                task.resume()
                             }
-                            task.resume()
                         }
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
                     }
-                } catch let error as NSError {
-                    print(error.localizedDescription)
                 }
             }
+            task.resume()
         }
-        task.resume()
     }
-
-
+    
+    
 }
-
